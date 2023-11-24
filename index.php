@@ -1,11 +1,10 @@
 <?php
-    include_once("./env.php");
-    include_once("./utility/settings/extra.php");
-    include_once("./routes/main.php");
-    if (array_key_exists($request, $routes)) {
-        $controllerName = $routes[$request];
-        include_once 'redirects/' . $controllerName . '.php';
+
+    require_once './env.php';
+    require_once './route/main.php';
+
+    if (array_key_exists(Route->redirect(), $route)) {
+        $route[Route->redirect()]();
     } else {
-        include 'resources/views/404.php';
+        echo "<h1>404 Component not found</h1>";
     }
-?>

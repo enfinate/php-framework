@@ -1,1 +1,0 @@
-<?php view("home");
