@@ -7,10 +7,11 @@
             $this->serv = array(
                 "/"=>["RouteController", "index"],
                 "/about"=>["RouteController", "about"],
+                "/contact"=>["RouteController", "contact"],
                 "/ather"=>["HomeController", "ahmed"],
                 "/api"=>["APIController", "get"],
+                "/sada"=>["DBController", "add"],
             );
         }
     }
     define("Routes", (new Variable)->serv);
-

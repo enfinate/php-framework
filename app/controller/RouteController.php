@@ -10,7 +10,11 @@
         }
 
         public function about(){
-            // echo "about";
+            return view("about");
+        }
+
+        public function contact(){
+            return view("contact");
         }
 
     }
