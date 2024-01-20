@@ -22,15 +22,16 @@
             //     print_r($every);
             // }
 
+            // print_r($DB->RETRIEVE(_WHERE("id", "==", "4")));
+
             // $DB->UPDATE([
-            //         "fullname"=>"Ahmed Shahid",
-            //         "username"=>"asdasd",
-            //         "pass"=>"arhytr31424324324"
-            //     ]
-            //     ,"id = 4"
+            //     "fullname"=>"mala"
+            // ],
+            //     _WHERE("id", ">", "12")
             // );
-            view("welcome");
-            
+
+            // print_r(_inbetween("This is the 'heighlighted part'","'", "'"));
+
         }
 
     }

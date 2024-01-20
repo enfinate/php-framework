@@ -1,5 +1,4 @@
 <?php
-
     $variable = [
         "User",
     ];

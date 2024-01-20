@@ -6,7 +6,7 @@ use Exception;
     class Db{
         private $host; private $user; private $pass; private $db; private $table;
 
-        function __construct($table, $env = ENV_DATA)
+        public function __construct($table, $env = ENV_DATA)
         {
             
             if(!($env['HOST']==""||$env['HOST']==null) && !($env['USER']==""||$env['USER']==null) && !($env['__DB']==""||$env['__DB']==null) ){
@@ -51,21 +51,31 @@ use Exception;
         function RETRIEVE($clause=null){
         
             $class = explode("\\", get_class($this->table));
+
             foreach($class as $val){$var = $val;}
+
             $var = strtolower($var);
+
             $fetcheru = "";
             $comma="";
+
             foreach($this->table->columns as $column){
                 $fetcheru.=$comma."`".$column."`";
                 $comma=", ";
             };
-            $query = $clause===null ? "SELECT $fetcheru FROM `$var`" : "SELECT $fetcheru FROM `$var` WHERE $clause";
+            $query = $clause===null ? "SELECT $fetcheru FROM `$var`" : "SELECT $fetcheru FROM `$var` $clause[query]";
+
+            if($clause!==null && $clause['approval'] !== 124354643423){
+                $query = "SELECT $fetcheru FROM `$var`";
+            }
+
             if($connection = mysqli_connect($this->host, $this->user, $this->pass, $this->db)){
                 $new = mysqli_query($connection, $query);
                 mysqli_close($connection);
             }else{
                 throw new Exception("Failed to establish connection with database. Potential causes could be wrong database credentials.");
             };
+
             $returnable = array();
             foreach($new as $a){array_push($returnable, $a);}
             return $returnable;
@@ -89,16 +99,21 @@ use Exception;
             }
             if($parser===1){
                 $var = strtolower($var);
-                $query = $clause===null ? "UPDATE `$var` SET $added" : "UPDATE `$var` SET $added WHERE $clause";
-                if($connection = mysqli_connect($this->host, $this->user, $this->pass, $this->db)){
-                    $data = mysqli_query($connection, $query);
-                    mysqli_close($connection);
+                $query = $clause===null ? "UPDATE `$var` SET $added" : "UPDATE `$var` SET $added $clause[query]";
+
+                if($clause !== null && $clause['approval'] !== 124354643423){
+                    return 0;
                 }else{
-                    throw new Exception("Failed to establish connection with database. Potential causes could be wrong database credentials.");
-                };
+                    if($connection = mysqli_connect($this->host, $this->user, $this->pass, $this->db)){
+                        $data = mysqli_query($connection, $query);
+                        mysqli_close($connection);
+                    }else{
+                        throw new Exception("Failed to establish connection with database. Potential causes could be wrong database credentials.");
+                    };
+                }
             }
             return $data;
         }
-
-
     }
+
+    
